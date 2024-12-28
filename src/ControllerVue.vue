@@ -35,10 +35,10 @@ onMounted(async () => {
 
 <template>
   <main class="flex flex-col justify-center items-center h-full">
-    <h1>Vue + Controller Test</h1>
+    <h1 class="text-3xl font-bold text-center mx-2 my-4">Vue + Controller Test</h1>
 
     <div class="flex flex-col justify-center items-center h-full" v-if="account">
-      <p>Account: {{ account.address }}</p>
+      <p class="max-w-[90%] break-all">Account: {{ account.address }}</p>
       <p>Username: {{ username }}</p>
       <div class="flex justify-center items-center">
         <button @click="profile" class="link-highlight m-4 cursor-pointer text-lg">Profile</button>
@@ -53,3 +53,9 @@ onMounted(async () => {
     </button>
   </main>
 </template>
+
+<style>
+#app {
+  height: 100%;
+}
+</style>
