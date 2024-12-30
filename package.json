@@ -14,8 +14,12 @@
   },
   "dependencies": {
     "@cartridge/controller": "^0.5.5",
+    "@dojoengine/sdk": "^1.0.7",
+    "@telegram-apps/sdk-vue": "^1.0.13",
     "starknet": "^6.11.0",
+    "vite-plugin-top-level-await": "^1.4.4",
     "vite-plugin-vue": "^0.0.1",
+    "vite-plugin-wasm": "^3.4.1",
     "vue": "^3.5.13",
     "vue-cli-service": "^5.0.10"
   },

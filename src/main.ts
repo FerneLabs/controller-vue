@@ -1,4 +1,4 @@
 import { createApp } from 'vue'
-import ControllerVue from './ControllerVue.vue'
+import App from './App.vue'
 
-export default createApp(ControllerVue).mount('#app')
+export default createApp(App).mount('#app')

@@ -3,30 +3,19 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import wasm from "vite-plugin-wasm";
 import fs from 'fs';
+import topLevelAwait from 'vite-plugin-top-level-await';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
+    wasm(),
+    topLevelAwait(),
   ],
-  build: {
-    lib: {
-      entry: 'src/main.ts', // Your app's entry point
-      name: 'ControllerVue',
-      fileName: 'controller-vue',
-    },
-    rollupOptions: {
-      external: ['vue'], // Prevent bundling Vue (use parent Vue)
-      output: {
-        globals: {
-          vue: 'Vue',
-        },
-        exports: 'default',
-      },
-    },
-  },
+  base: '/embedded/tg-controller-vue/',
   server: {
     https: {
       key: fs.readFileSync('C:\\Windows\\System32\\cert.key'),
