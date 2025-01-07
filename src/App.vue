@@ -18,9 +18,3 @@ const options = initOptions()
     <ControllerVue />
   </AccountProvider>
 </template>
-
-<style>
-#app {
-  height: 100%;
-}
-</style>

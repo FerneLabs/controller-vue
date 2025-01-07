@@ -1,5 +1,6 @@
 import { CartridgeSessionAccount } from "@cartridge/account-wasm/session";
 import type { Policy } from "@cartridge/controller";
+import type { OpenLinkBrowser } from "@telegram-apps/sdk-vue";
 
 export interface AccountStorage {
     username: string;
@@ -18,7 +19,7 @@ export interface AccountContextType {
     accountStorage?: AccountStorage;
     sessionSigner?: SessionSigner;
     account?: CartridgeSessionAccount;
-    openConnectionPage: () => void;
+    openConnectionPage: (browser: OpenLinkBrowser) => void;
     clearSession: () => void;
     address?: string;
     username?: string;
