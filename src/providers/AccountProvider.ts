@@ -2,7 +2,7 @@ import { ref, reactive, provide, inject, computed, onMounted } from 'vue';
 import { cloudStorage, miniApp, openLink, initData, useSignal, type OpenLinkBrowser } from '@telegram-apps/sdk-vue';
 import * as Dojo from '@dojoengine/torii-client';
 import { CartridgeSessionAccount } from '@cartridge/account-wasm/session';
-import type { AccountContextType, AccountProviderProps, AccountStorage, SessionSigner } from './types';
+import type { AccountContextType, AccountProviderProps, AccountStorage, SessionSigner } from '../globals';
 import type { Policy } from '@cartridge/account-wasm';
 
 const initDataRef = useSignal(initData.state);

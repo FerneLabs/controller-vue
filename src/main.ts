@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
 import { errorHandler } from './errorHandler'
 import App from './App.vue'
-import { init } from './InitTelegram';
+import { init } from './tg_config/InitTelegram';
 import { retrieveLaunchParams } from '@telegram-apps/sdk-vue';
-import './mockEnv';
-import './main.css';
+import './tg_config/mockEnv';
+import './assets/main.css';
 
 try {
     init(retrieveLaunchParams()?.startParam === 'debug' || import.meta.env.DEV);

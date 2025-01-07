@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAccount } from './AccountProvider'
+import { useAccount } from '../providers/AccountProvider'
 import BrowserSelect from './BrowserSelect.vue'
 
 const context = useAccount()

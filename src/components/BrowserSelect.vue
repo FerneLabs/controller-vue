@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { OpenLinkBrowser } from '@telegram-apps/sdk-vue'
-import { useAccount } from './AccountProvider'
+import { useAccount } from '../providers/AccountProvider'
 
 const context = useAccount()
 const browserList: OpenLinkBrowser[] = ['chrome', 'firefox', 'opera', 'brave', 'samsung', 'kiwi']
