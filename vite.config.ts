@@ -15,7 +15,8 @@ export default defineConfig({
     wasm(),
     topLevelAwait(),
   ],
-  base: '/embedded/tg-controller-vue/',
+  // Needed for deployment on fernelabs.tech
+  // base: '/embedded/tg-controller-vue/',
   server: {
     https: {
       key: fs.readFileSync('C:\\Windows\\System32\\cert.key'),

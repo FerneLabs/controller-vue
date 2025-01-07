@@ -1,13 +1,13 @@
 import { ref, reactive, provide, inject, computed, onMounted } from 'vue';
-import { useLaunchParams, cloudStorage, miniApp, openLink } from '@telegram-apps/sdk-vue';
+import { useLaunchParams, cloudStorage, miniApp, openLink, parseInitData, initData, useSignal } from '@telegram-apps/sdk-vue';
 import * as Dojo from '@dojoengine/torii-client';
 import { CartridgeSessionAccount } from '@cartridge/account-wasm/session';
 import type { AccountContextType, AccountProviderProps, AccountStorage, SessionSigner } from './types';
 import type { Policy } from '@cartridge/account-wasm';
 
-export function useAccountProvider({ keychainUrl, policies, redirectUri, rpcUrl, network }: AccountProviderProps) {
-	const { initData } = useLaunchParams();
+const initDataRef = useSignal(initData.state);
 
+export function useAccountProvider({ keychainUrl, policies, redirectUri, rpcUrl, network }: AccountProviderProps) {
 	const accountStorage = ref<AccountStorage | undefined>(undefined);
 	const sessionSigner = ref<SessionSigner | undefined>(undefined);
 
@@ -45,8 +45,8 @@ export function useAccountProvider({ keychainUrl, policies, redirectUri, rpcUrl,
 		initializeSession();
 		loadStoredAccount();
 
-		if (initData?.startParam) {
-			const cartridgeAccount = JSON.parse(atob(initData.startParam)) as AccountStorage;
+		if (initDataRef.value?.startParam) {
+			const cartridgeAccount = JSON.parse(atob(initDataRef.value.startParam)) as AccountStorage;
 			cloudStorage.setItem('account', JSON.stringify(cartridgeAccount));
 			accountStorage.value = cartridgeAccount;
 		}
@@ -70,23 +70,26 @@ export function useAccountProvider({ keychainUrl, policies, redirectUri, rpcUrl,
 		);
 	});
 
+	const generateSigner = (): SessionSigner => {
+		const privateKey = Dojo.signingKeyNew();
+		const publicKey = Dojo.verifyingKeyNew(privateKey);
+		const newSigner: SessionSigner = { privateKey, publicKey };
+		cloudStorage.setItem('sessionSigner', JSON.stringify(newSigner));
+		return newSigner;
+	};
+
 	const openConnectionPage = async () => {
-		if (!sessionSigner.value) {
-			const privateKey = Dojo.signingKeyNew();
-			const publicKey = Dojo.verifyingKeyNew(privateKey);
-			const newSigner: SessionSigner = { privateKey, publicKey };
+		console.log("opening connection page");
+		sessionSigner.value = sessionSigner.value ?? generateSigner();
 
-			await cloudStorage.setItem('sessionSigner', JSON.stringify(newSigner));
-			sessionSigner.value = newSigner;
-			return;
-		}
+		console.log("session signer", sessionSigner.value);
 
-		const url = encodeURIComponent(
+		const url = encodeURI(
 			`${keychainUrl}/session?public_key=${sessionSigner.value.publicKey}` +
 			`&redirect_uri=${redirectUri}&redirect_query_name=startapp` +
 			`&policies=${JSON.stringify(policies)}&rpc_url=${rpcUrl}`
 		);
-
+		console.log("url", url);
 		openLink(url, { tryInstantView: false });
 		miniApp.close();
 	};

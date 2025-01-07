@@ -11,8 +11,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-console.log('inside account provider')
 useAccountProvider(props)
 </script>
 
