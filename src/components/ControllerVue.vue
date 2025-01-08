@@ -1,10 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useAccount } from '../providers/AccountProvider'
 import BrowserSelect from './BrowserSelect.vue'
+import type { JsCall } from '@cartridge/account-wasm/session'
+import { CONTRACT_ADDRESS } from '@/controllerData'
 
 const context = useAccount()
 const isModalOpen = ref(false)
+
+const handleWebGLMessage = (method: string, payload: any) => {
+  if (method === 'openConnectionPage') {
+    isModalOpen.value = true
+  }
+
+  if (method === 'createUser') {
+    const call: JsCall = {
+      contractAddress: CONTRACT_ADDRESS,
+      entrypoint: 'create_user',
+      calldata: [payload.username],
+    }
+    context.account?.execute([call])
+  }
+}
+
+onMounted(() => (window.App = { handleWebGLMessage }))
+onBeforeUnmount(() => (window.App = undefined))
 </script>
 
 <template>

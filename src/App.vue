@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AccountProvider from './providers/AccountProvider.vue'
 import ControllerVue from './components/ControllerVue.vue'
-import { KEYCHAIN_URL, POLICIES, REDIRECT_URL } from './globals'
+import { KEYCHAIN_URL, POLICIES, REDIRECT_URL } from './controllerData'
 import type { ControllerOptions } from '@cartridge/controller'
 
 const projectName = import.meta.env.VITE_DEV ? 'dod-dev' : 'dod'
