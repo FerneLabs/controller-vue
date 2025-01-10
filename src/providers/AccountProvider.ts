@@ -2,20 +2,9 @@ import { ref, reactive, provide, inject, computed, onMounted } from 'vue';
 import { cloudStorage, miniApp, openLink, initData, useSignal, type OpenLinkBrowser } from '@telegram-apps/sdk-vue';
 import * as Dojo from '@dojoengine/torii-client';
 import { CartridgeSessionAccount } from '@cartridge/account-wasm/session';
-// import type { AccountContextType, AccountProviderProps, AccountStorage, SessionSigner } from '../global';
 import type { Policy } from '@cartridge/account-wasm';
 
 const initDataRef = useSignal(initData.state);
-
-const writeMessageDOM = (from: string, message: string) => {
-	const root = document.getElementById('app') ?? document.body;
-	root.insertAdjacentHTML('beforeend', `
-		<div>
-			<p class="max-w-[90%] break-all text-white">${from}</p>
-			<p class="max-w-[90%] break-all text-white">${message}</p>
-		</div>
-	`);
-};
 
 export function useAccountProvider({ keychainUrl, policies, redirectUri, rpcUrl, network }: AccountProviderProps) {
 	const accountStorage = ref<AccountStorage | undefined>(undefined);
@@ -27,7 +16,6 @@ export function useAccountProvider({ keychainUrl, policies, redirectUri, rpcUrl,
 		if (keys.includes('sessionSigner')) {
 			const signer = await cloudStorage.getItem('sessionSigner');
 			sessionSigner.value = JSON.parse(signer) as SessionSigner;
-			// writeMessageDOM("[initializeSession]", `has signer ${JSON.stringify(sessionSigner.value)}`);
 			return;
 		}
 
@@ -37,8 +25,6 @@ export function useAccountProvider({ keychainUrl, policies, redirectUri, rpcUrl,
 
 		await cloudStorage.setItem('sessionSigner', JSON.stringify(newSigner));
 		sessionSigner.value = newSigner;
-
-		// writeMessageDOM("[initializeSession]", `created new signer ${JSON.stringify(sessionSigner.value)}`);
 	};
 
 	const loadStoredAccount = async () => {

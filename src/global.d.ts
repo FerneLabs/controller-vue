@@ -6,10 +6,12 @@ export { };
 
 declare global {
     interface Window {
-        WebGLMessage?: (event: string, payload: string) => void;
+        WebGLMessage: (event: string, payload?: string) => void;
+        VueMessage: (event: string, payload?: string) => void;
         App?: {
-            handleWebGLMessage?: (event: string, payload: any) => void;
+            handleWebGLMessage?: (event: string, payload?: string) => void;
         };
+        gameInstance: GameInstance;
     }
     interface AccountStorage {
         username: string;
@@ -47,5 +49,9 @@ declare global {
         redirectUri: string;
         rpcUrl: string;
         network?: string;
+    }
+
+    interface GameInstance extends object {
+        SendMessage(objectName: string, methodName: string, value?: string): void;
     }
 }
