@@ -37,7 +37,7 @@ declare global {
         keychainUrl?: string;
         redirectUri?: string;
         policies?: Policy[];
-        rpc?: string;
+        rpcUrl?: string;
         slot?: string;
         namespace?: string;
         network?: string;
