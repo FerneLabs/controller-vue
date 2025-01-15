@@ -3,7 +3,6 @@ import { errorHandler } from './errorHandler'
 import App from './App.vue'
 import { init } from './tg_config/InitTelegram';
 import { retrieveLaunchParams } from '@telegram-apps/sdk-vue';
-import VueIframe from 'vue-iframes'
 
 import './tg_config/mockEnv';
 import './middleware/WebGLMessage';
@@ -16,7 +15,10 @@ try {
     console.error('cannot init', e);
 }
 
+if (import.meta.env.VITE_DEV) {
+    import('eruda').then(eruda => eruda.default.init());
+}
+
 const app = createApp(App)
 app.config.errorHandler = errorHandler
-app.use(VueIframe)
 app.mount('#app')

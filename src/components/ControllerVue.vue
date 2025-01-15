@@ -3,16 +3,20 @@ import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useAccount } from '../providers/AccountProvider'
 import ConnectionModal from './ConnectionModal.vue'
 import WebGLContainer from './WebGLContainer.vue'
-import { CONTRACT_ADDRESS } from '@/controllerData'
-import type { JsCall } from '@cartridge/account-wasm'
-import * as Dojo from '@dojoengine/torii-client'
+import { execTransaction } from '@/execTransaction'
 
 const context = useAccount()
 const isModalOpen = ref(false)
 const isWebGLReady = ref(false)
 
-const handleWebGLMessage = (method: string, payload?: string) => {
+const handleWebGLMessage = async (method: string, payload?: string) => {
   const parsedPayload = payload ? JSON.parse(payload) : null
+
+  if (method === 'WebGLLog') {
+    console.log(`[WebGL Log] ${parsedPayload}`)
+    return
+  }
+
   console.log(`[ControllerVue] Got message: ${method}`, parsedPayload)
 
   if (method === 'WebGLReady') {
@@ -29,32 +33,26 @@ const handleWebGLMessage = (method: string, payload?: string) => {
   }
 
   if (method === 'ExecuteCreatePlayer') {
-    if (!context.username || !context.account) return
-    const call: JsCall = {
-      contractAddress: CONTRACT_ADDRESS,
-      entrypoint: 'create_player',
-      calldata: [Dojo.cairoShortStringToFelt(context.username)],
-    }
+    if (!context.username) return
+    execTransaction(context, 'create_player', [context.username])
+  }
 
-    context.account
-      ?.execute([call])
-      .then(() => {
-        window.VueMessage('PlayerCreated')
-      })
-      .catch((e) => {
-        console.error(`Error while executing action create_player: ${e}`)
-      })
+  if (method === 'ExecuteCreateGame') {
+    execTransaction(context, 'create_game', [])
+  }
+
+  if (method === 'ExecuteEndGame') {
+    execTransaction(context, 'end_game', [])
   }
 }
 
 const handleAccountChange = () => {
   if (!isWebGLReady.value) return
+  console.log(`[ControllerVue] Account changed`, context.accountStorage)
 
   if (!context.accountStorage) {
     window.VueMessage('UnregisterAccount')
   } else {
-    console.log(context)
-    console.log(`[ControllerVue] Passing RPC: ${context.rpcUrl}`)
     window.VueMessage(
       'RegisterAccount',
       JSON.stringify({

@@ -61,7 +61,7 @@ export function useAccountProvider({ keychainUrl, policies, redirectUri, rpcUrl,
 			accountStorage.value.ownerGuid,
 			network
 				? Dojo.cairoShortStringToFelt(network)
-				: Dojo.cairoShortStringToFelt('SN_MAINNET'),
+				: Dojo.cairoShortStringToFelt('SN_MAIN'),
 			{
 				policies: policies as Policy[],
 				expiresAt: Number(accountStorage.value.expiresAt)
