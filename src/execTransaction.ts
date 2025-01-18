@@ -17,7 +17,7 @@ export const execTransaction = (
 	}
 
 	console.log('[execTransaction] Running transaction...')
-	context.account
+	const tx = context.account
 		.execute([call])
 		.then((tx) => {
 			console.log('[execTransaction] Transaction ran:', tx)
@@ -27,4 +27,6 @@ export const execTransaction = (
 			console.error(`[execTransaction] Error while executing transaction ${entryPoint}: ${e}`)
 			window.VueMessage('DisplayError', JSON.stringify({ message: `${e}` }))
 		})
+
+	return tx;
 }

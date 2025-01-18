@@ -4,6 +4,7 @@ import { useAccount } from '../providers/AccountProvider'
 import ConnectionModal from './ConnectionModal.vue'
 import WebGLContainer from './WebGLContainer.vue'
 import { execTransaction } from '@/execTransaction'
+import { addToQueue } from '@/moveQueue'
 
 const context = useAccount()
 const isModalOpen = ref(false)
@@ -43,6 +44,11 @@ const handleWebGLMessage = async (method: string, payload?: string) => {
 
   if (method === 'ExecuteEndGame') {
     execTransaction(context, 'end_game', [])
+  }
+
+  if (method === 'ExecuteMove') {
+    if (!parsedPayload.direction) return
+    addToQueue(context, parsedPayload.direction)
   }
 }
 

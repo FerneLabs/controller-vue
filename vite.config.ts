@@ -17,6 +17,9 @@ export default defineConfig({
   ],
   // Needed for deployment on fernelabs.tech
   // base: '/embedded/tg-controller-vue/',
+  build: {
+    target: 'es2022',
+  },
   server: {
     https: {
       key: fs.readFileSync('C:\\Windows\\System32\\cert.key'),

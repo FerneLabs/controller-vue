@@ -13,8 +13,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@cartridge/controller": "^0.5.5",
-    "@dojoengine/sdk": "^1.0.7",
+    "@cartridge/controller": "^0.6.0",
+    "@dojoengine/sdk": "^1.0.10",
     "@telegram-apps/sdk-vue": "^1.0.13",
     "eruda": "^3.4.1",
     "starknet": "^6.11.0",

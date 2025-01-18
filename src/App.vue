@@ -5,12 +5,12 @@ import { KEYCHAIN_URL, POLICIES, REDIRECT_URL } from './controllerData'
 import type { ControllerOptions } from '@cartridge/controller'
 
 const projectName = import.meta.env.VITE_DEV ? 'dod-dev' : 'dod'
-const options: ControllerOptions = {
-  slot: projectName,
-  namespace: 'depths_of_dread',
-  rpc: `https://api.cartridge.gg/x/${projectName}/katana`,
-  colorMode: 'dark',
-}
+// const options: ControllerOptions = {
+//   slot: projectName,
+//   namespace: 'depths_of_dread',
+//   // rpc: `https://api.cartridge.gg/x/${projectName}/katana`,
+//   colorMode: 'dark',
+// }
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const options: ControllerOptions = {
     :keychainUrl="KEYCHAIN_URL"
     :policies="POLICIES"
     :redirectUri="REDIRECT_URL"
-    :rpcUrl="options.rpc"
+    :rpcUrl="`https://api.cartridge.gg/x/${projectName}/katana`"
     network="SLOT"
   >
     <ControllerVue />
